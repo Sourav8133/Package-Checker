@@ -293,6 +293,39 @@ main {
   z-index: 2;
 }
 
+.check-button {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+
+  margin: 18px auto 0;
+  padding: 13px 20px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, #8b4cff, #a855f7);
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 18px rgba(139, 76, 255, 0.25);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.check-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(139, 76, 255, 0.4);
+}
+
+.check-button:active {
+  transform: translateY(0);
+}
+
 /* ---------- Recent scans ---------- */
 
 .recent-scans {
@@ -575,6 +608,14 @@ main {
 
   cursor: pointer;
   z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .check-button {
+    max-width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
 }
   /* Features and package stay together visually */
   .features {

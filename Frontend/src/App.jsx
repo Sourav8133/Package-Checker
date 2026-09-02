@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 const ICONS = {
@@ -116,6 +116,35 @@ function App() {
   const [activeTab, setActiveTab] = useState('home')
   const fileInputRef = useRef(null)
   const [selectedImage, setSelectedImage] = useState(null)
+
+  useEffect(() => {
+    return () => {
+      if (selectedImage) {
+        URL.revokeObjectURL(selectedImage)
+      }
+    }
+  }, [selectedImage])
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0]
+
+    if (!file) return
+
+    if (file.size > 10 * 1024 * 1024) {
+      event.target.value = ''
+      return
+    }
+
+    setSelectedImage(URL.createObjectURL(file))
+  }
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
   return (
     <div className="app">
 
@@ -182,7 +211,7 @@ function App() {
     <div className="image-preview">
       <button
         className="remove-image"
-        onClick={() => setSelectedImage(null)}
+        onClick={handleRemoveImage}
       >
         ✕
       </button>
@@ -196,18 +225,13 @@ function App() {
   </>
 )}
 
-          <input
-            type="file"
-            accept="image/*"
-            hidden
-            ref={fileInputRef}
-            onChange={(e) => {
-            const file = e.target.files[0]
-            if (file) {
-            setSelectedImage(URL.createObjectURL(file))
-            }
-            }}
-          />
+         <input
+  type="file"
+  accept="image/*"
+  hidden
+  ref={fileInputRef}
+  onChange={handleFileChange}
+/>
 
           <span className="scan-hint">JPG, PNG or JPEG (Max. 10MB)</span>
 
